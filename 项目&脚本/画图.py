@@ -1,78 +1,78 @@
-''' »­Í¼ '''
+''' ç”»å›¾ '''
 
 from tkinter import *
 from tkinter.filedialog import *
 from tkinter.messagebox import *
 from tkinter.colorchooser import *
 
-siz_w = 600  # »­²¼µÄ¿í¶È
-siz_h = 400  # »­²¼µÄ¸ß¶È
+siz_w = 600  # ç”»å¸ƒçš„å®½åº¦
+siz_h = 400  # ç”»å¸ƒçš„é«˜åº¦
 
 class Paint(Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        self.x = 0; self.y = 0  # »­Í¼ÆğÊ¼µã×ø±ê
-        self.bgcolor = '#ff0000'  # ±Ê´¥ÑÕÉ«£¬Ä¬ÈÏºìÉ«
-        self.lastdraw = 0  # ±ê¼ÇÉÏÒ»Ìõ»­µÄÏß£¬±ãÓÚÉ¾³ı
-        self.drawing = False  # ¿ªÊ¼»æ»­µÄ±ê¼Ç£¬ÓÃÓÚÈ·¶¨ÆğÊ¼µã
-        self.fillcolor = ''  # Ìî³äÑÕÉ«£¬Ä¬ÈÏÎŞ
+        self.x = 0; self.y = 0  # ç”»å›¾èµ·å§‹ç‚¹åæ ‡
+        self.bgcolor = '#ff0000'  # ç¬”è§¦é¢œè‰²ï¼Œé»˜è®¤çº¢è‰²
+        self.lastdraw = 0  # æ ‡è®°ä¸Šä¸€æ¡ç”»çš„çº¿ï¼Œä¾¿äºåˆ é™¤
+        self.drawing = False  # å¼€å§‹ç»˜ç”»çš„æ ‡è®°ï¼Œç”¨äºç¡®å®šèµ·å§‹ç‚¹
+        self.fillcolor = ''  # å¡«å……é¢œè‰²ï¼Œé»˜è®¤æ— 
         self.eraser_siz = 4
         self.back = '#ffffff'
         self.pack()
         self.cre()
 
     def cre(self):
-        # ´´½¨»æÍ¼ÇøÓò
+        # åˆ›å»ºç»˜å›¾åŒºåŸŸ
         self.drawpad = Canvas(self, bg='white', width=siz_w, height=siz_h)
         self.drawpad.pack()
 
-        # ´´½¨ÓÒ¼üÒş²Ø²Ëµ¥
-        self.menu = Menu(self.drawpad)  # °Ñ²Ëµ¥°ó¶¨ÔÚ»­°åÉÏ
-        self.menu.add_command(label='¸ü»»»»±ÊÑÕÉ«', command=self.changecolor)
-        self.menu.add_command(label='¸ü»»»­°åÑÕÉ«', command=self.changebg)
-        self.menu.add_command(label='¸ü»»Ìî³äÑÕÉ«', command=self.chfill)
-        self.menu.add_command(label='¸ü»»Íâ¿òÑÕÉ«', command=self.chout)
+        # åˆ›å»ºå³é”®éšè—èœå•
+        self.menu = Menu(self.drawpad)  # æŠŠèœå•ç»‘å®šåœ¨ç”»æ¿ä¸Š
+        self.menu.add_command(label='æ›´æ¢æ¢ç¬”é¢œè‰²', command=self.changecolor)
+        self.menu.add_command(label='æ›´æ¢ç”»æ¿é¢œè‰²', command=self.changebg)
+        self.menu.add_command(label='æ›´æ¢å¡«å……é¢œè‰²', command=self.chfill)
+        self.menu.add_command(label='æ›´æ¢å¤–æ¡†é¢œè‰²', command=self.chout)
 
-        # ÏğÆ¤´óĞ¡Ñ¡Ôñ
+        # æ©¡çš®å¤§å°é€‰æ‹©
         self.siz = Scale(self.drawpad, from_=1, to=10, tickinterval=2, command=self.siz_ch, orient=HORIZONTAL)
 
-        # ´´½¨°´Å¥
-        pd = 5  # °´Å¥¼ä¾à
-        bt_pen = Button(self, text='»­±Ê', name='pen')  # Îª°´Å¥ÉèÖÃÃû×Ö£¬·½±ã¹ÜÀí
+        # åˆ›å»ºæŒ‰é’®
+        pd = 5  # æŒ‰é’®é—´è·
+        bt_pen = Button(self, text='ç”»ç¬”', name='pen')  # ä¸ºæŒ‰é’®è®¾ç½®åå­—ï¼Œæ–¹ä¾¿ç®¡ç†
         bt_pen.pack(side='left', padx=pd)
-        bt_rect = Button(self, text='¾ØĞÎ', name='rect')
+        bt_rect = Button(self, text='çŸ©å½¢', name='rect')
         bt_rect.pack(side='left', padx=pd)
-        bt_line = Button(self, text='Ö±Ïß', name='line')
+        bt_line = Button(self, text='ç›´çº¿', name='line')
         bt_line.pack(side='left', padx=pd)
-        bt_line_arrow = Button(self, text='´ø¼ıÍ·µÄÖ±Ïß', name='arrow')
+        bt_line_arrow = Button(self, text='å¸¦ç®­å¤´çš„ç›´çº¿', name='arrow')
         bt_line_arrow.pack(side='left', padx=pd)
-        bt_eraser = Button(self, text='ÏğÆ¤', name='eraser')
+        bt_eraser = Button(self, text='æ©¡çš®', name='eraser')
         bt_eraser.pack(side='left', padx=pd)
-        bt_clear = Button(self, text='ÇåÆÁ', name='clear')
+        bt_clear = Button(self, text='æ¸…å±', name='clear')
         bt_clear.pack(side='left', padx=pd)
-        bt_quit = Button(self, text='ÍË³ö', name='quit')
+        bt_quit = Button(self, text='é€€å‡º', name='quit')
         bt_quit.pack(side='left', padx=pd)
 
         bt_eraser.bind('<3>', self.siz_eraser)
-        bt_rect.bind_class('Button', '<1>', self.EventManager)  # ±ÜÃâ´úÂëÈßÓà£¬¶à´Î°ó¶¨
-        self.drawpad.bind('<ButtonRelease-1>', self.stop_draw)  # Îª»­°å°ó¶¨ÊÍ·ÅÊó±êÊÂ¼ş
-        self.drawpad.bind('<3>', self.cre_menu)  # Îª»­°å°ó¶¨ÓÒ¼üµ¥»÷ÊÂ¼ş£¬ÕÙ»½Òş²Ø²Ëµ¥
+        bt_rect.bind_class('Button', '<1>', self.EventManager)  # é¿å…ä»£ç å†—ä½™ï¼Œå¤šæ¬¡ç»‘å®š
+        self.drawpad.bind('<ButtonRelease-1>', self.stop_draw)  # ä¸ºç”»æ¿ç»‘å®šé‡Šæ”¾é¼ æ ‡äº‹ä»¶
+        self.drawpad.bind('<3>', self.cre_menu)  # ä¸ºç”»æ¿ç»‘å®šå³é”®å•å‡»äº‹ä»¶ï¼Œå¬å”¤éšè—èœå•
         self.drawpad.bind('<1>', lambda event : self.siz.place_forget())
 
-        # ¿ì½İ¼ü¸ü»»ÑÕÉ«
+        # å¿«æ·é”®æ›´æ¢é¢œè‰²
         root.bind('<KeyPress-g>', self.quick)
         root.bind('<KeyPress-r>', self.quick)
         root.bind('<KeyPress-b>', self.quick)
         root.bind('<KeyPress-y>', self.quick)
 
     def EventManager(self, event):
-        ''' ¹ÜÀíËùÓĞ°´Å¥´¥·¢µÄÊÂ¼ş '''
+        ''' ç®¡ç†æ‰€æœ‰æŒ‰é’®è§¦å‘çš„äº‹ä»¶ '''
         self.siz.place_forget()
-        name = event.widget.winfo_name()  # ²éÑ¯´¥·¢ÊÂ¼şµÄÔª¼şµÄÃû×Ö£¬ÕÒµ½±»µã»÷µÄ°´Å¥
+        name = event.widget.winfo_name()  # æŸ¥è¯¢è§¦å‘äº‹ä»¶çš„å…ƒä»¶çš„åå­—ï¼Œæ‰¾åˆ°è¢«ç‚¹å‡»çš„æŒ‰é’®
         # print(name)
         if name == 'line':
-            self.drawpad.bind('<B1-Motion>', self.my_line)  # Ã¿´Î¶¼ÖØĞÂÎªÊó±êÍÏ¶¯°ó¶¨ĞÂµÄº¯Êı£¬ÒÔ±ãÓÚÇĞ»»Ä£Ê½
+            self.drawpad.bind('<B1-Motion>', self.my_line)  # æ¯æ¬¡éƒ½é‡æ–°ä¸ºé¼ æ ‡æ‹–åŠ¨ç»‘å®šæ–°çš„å‡½æ•°ï¼Œä»¥ä¾¿äºåˆ‡æ¢æ¨¡å¼
         elif name == 'arrow':
             self.drawpad.bind('<B1-Motion>', self.my_line_arrow)
         elif name == 'rect':
@@ -98,28 +98,28 @@ class Paint(Frame):
 
 
     def cre_menu(self, event):
-        ''' ÔÚÊó±êµã»÷Î»ÖÃµÄÅÔ±ß´´½¨Òş²Ø²Ëµ¥ '''
+        ''' åœ¨é¼ æ ‡ç‚¹å‡»ä½ç½®çš„æ—è¾¹åˆ›å»ºéšè—èœå• '''
         self.menu.post(event.x_root, event.y_root)
 
     def chfill(self):
-        ''' ¸ÄÌî³äÑÕÉ« '''
+        ''' æ”¹å¡«å……é¢œè‰² '''
         self.fillcolor = askcolor()[1]
 
     def changecolor(self):
-        ''' ¸Ä±Ê´¥ÑÕÉ« '''
+        ''' æ”¹ç¬”è§¦é¢œè‰² '''
         self.bgcolor = askcolor()[1]
 
     def chout(self):
-        ''' ¸ÄÍâ±ß¿òÑÕÉ« '''
+        ''' æ”¹å¤–è¾¹æ¡†é¢œè‰² '''
         self.bgcolor = askcolor()[1]
 
     def changebg(self):
-        ''' ¸Ä»­°åÑÕÉ« '''
+        ''' æ”¹ç”»æ¿é¢œè‰² '''
         self.back = askcolor()[1]
         self.drawpad.config(bg=self.back)
 
     def siz_eraser(self, event):
-        ''' ´´½¨ÏğÆ¤´óĞ¡Ñ¡Ôñ»¬¿é '''
+        ''' åˆ›å»ºæ©¡çš®å¤§å°é€‰æ‹©æ»‘å— '''
         # xx = event.widget.winfo_x(); yy = event.widget.winfo_y()
         xx = 250; yy = 330
         self.siz.place(x=xx, y=yy)
@@ -128,44 +128,44 @@ class Paint(Frame):
         self.eraser_siz = int(sy)
 
     def my_eraser(self, event):
-        ''' ÏğÆ¤ '''
+        ''' æ©¡çš® '''
         self.drawpad.create_rectangle(event.x - self.eraser_siz, event.y - self.eraser_siz, event.x + self.eraser_siz, event.y + self.eraser_siz, fill=self.back, outline='')
 
     def my_pen(self, event):
-        ''' »­±Ê¹¤¾ß '''
+        ''' ç”»ç¬”å·¥å…· '''
         self.start_draw(event)
         self.drawpad.create_line(self.x, self.y, event.x, event.y, fill=self.bgcolor)
         self.x = event.x; self.y = event.y
 
     def rec(self, event):
-        ''' »­¾ØĞÎµÄº¯Êı '''
+        ''' ç”»çŸ©å½¢çš„å‡½æ•° '''
         self.start_draw(event)
         self.lastdraw = self.drawpad.create_rectangle(self.x, self.y, event.x, event.y, outline=self.bgcolor, fill=self.fillcolor)
-        #                                                                                    Íâ±ß¿òÑÕÉ«
+        #                                                                                    å¤–è¾¹æ¡†é¢œè‰²
 
     def stop_draw(self, event):
-        ''' Í£±Ê´¥·¢µÄº¯Êı '''
+        ''' åœç¬”è§¦å‘çš„å‡½æ•° '''
         self.drawing = False
-        self.lastdraw = 0  # °Ñ×îºó»­µÄÏßÇå¿Õ£¬·ÀÖ¹ÏÂ´Î»­Ê±É¾³ı»­ÍêµÄÏß
+        self.lastdraw = 0  # æŠŠæœ€åç”»çš„çº¿æ¸…ç©ºï¼Œé˜²æ­¢ä¸‹æ¬¡ç”»æ—¶åˆ é™¤ç”»å®Œçš„çº¿
 
     def start_draw(self, event):
-        ''' ¿ªÊ¼»­Í¼µÄ³õÊ¼»¯ '''
+        ''' å¼€å§‹ç”»å›¾çš„åˆå§‹åŒ– '''
         if not self.drawing:
             self.drawing = True
-            self.x = event.x; self.y = event.y  # ¿ªÊ¼»­Ö±ÏßÊ±¼ÇÂ¼ÏÂÆğµã£¬»­Ïß¹ı³ÌÖĞ¹ú±ã²»ÔÙ±ä¶¯Æğµã
-        self.drawpad.delete(self.lastdraw)  # É¾³ıÉÏÒ»´Î»æ»­
+            self.x = event.x; self.y = event.y  # å¼€å§‹ç”»ç›´çº¿æ—¶è®°å½•ä¸‹èµ·ç‚¹ï¼Œç”»çº¿è¿‡ç¨‹ä¸­å›½ä¾¿ä¸å†å˜åŠ¨èµ·ç‚¹
+        self.drawpad.delete(self.lastdraw)  # åˆ é™¤ä¸Šä¸€æ¬¡ç»˜ç”»
 
     def my_line(self, event):
-        ''' »­Ö±ÏßµÄº¯Êı '''
-        self.start_draw(event)  # ¼ıÍ·ºÍÖ±ÏßµÄ³õÊ¼»¯ÏàÍ¬£¬ËùÒÔ°üÔÚÒ»Æğ£¬¼õÉÙ´úÂë
+        ''' ç”»ç›´çº¿çš„å‡½æ•° '''
+        self.start_draw(event)  # ç®­å¤´å’Œç›´çº¿çš„åˆå§‹åŒ–ç›¸åŒï¼Œæ‰€ä»¥åŒ…åœ¨ä¸€èµ·ï¼Œå‡å°‘ä»£ç 
         self.lastdraw = self.drawpad.create_line(self.x, self.y, event.x, event.y, fill=self.bgcolor)
-        #  °ÑÏÖÔÚ»­µÄÏß¸³Öµ¸ø×îºóÒ»´Î»®Ïß±äÁ¿             ÏßµÄÆğÊ¼µã          ÏßµÄÖÕµã         Ìî³äÑÕÉ«
+        #  æŠŠç°åœ¨ç”»çš„çº¿èµ‹å€¼ç»™æœ€åä¸€æ¬¡åˆ’çº¿å˜é‡             çº¿çš„èµ·å§‹ç‚¹          çº¿çš„ç»ˆç‚¹         å¡«å……é¢œè‰²
 
     def my_line_arrow(self, event):
-        ''' »­´ø¼ıÍ·Ö±ÏßµÄº¯Êı '''
+        ''' ç”»å¸¦ç®­å¤´ç›´çº¿çš„å‡½æ•° '''
         self.start_draw(event)
         self.lastdraw = self.drawpad.create_line(self.x, self.y, event.x, event.y, fill=self.bgcolor, arrow=LAST)
-        #                                                                                             ¼ıÍ··ÅÖÃÎ»ÖÃ
+        #                                                                                             ç®­å¤´æ”¾ç½®ä½ç½®
 
 
 root = Tk()

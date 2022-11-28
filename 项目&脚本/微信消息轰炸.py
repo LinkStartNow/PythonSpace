@@ -22,9 +22,9 @@ def send(x):
     pyautogui.hotkey('ctrl', 'v')
     pyautogui.press('enter')
 
-name = input('对方在你微信中的备注:')
-times = int(input('发送次数：'))
-msg = input('发送内容：')
+name = input('瀵规柟鍦ㄤ綘寰俊涓殑澶囨敞:')
+times = int(input('鍙戦�佹鏁帮細'))
+msg = input('鍙戦�佸唴瀹癸細')
 open(name)
 while times != 0:
     times -= 1
